@@ -27,6 +27,7 @@ public:
     QScopedPointer<Bird>  bird;
     QScopedPointer<Score>  socre;
     void GameOver();
+    void ReStart();
 public slots:
     void frame();
     void View();

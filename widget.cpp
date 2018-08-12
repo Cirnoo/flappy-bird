@@ -12,7 +12,6 @@ Widget::Widget(QWidget *parent) :
     //setWindowFlags(Qt::FramelessWindowHint);
     setFixedSize(430,768);
     view=QPixmap(430,760);
-    //qDebug()<<GetCurrentThreadId();
     init();
     this->grabKeyboard();
 }
@@ -45,7 +44,7 @@ void Widget::init()
     tools.reset(new Tools());
     back.reset(new Back(res->day_back,res->day_back.height()/2,-0.3,LAYER_BACK));
     ground.reset(new Back(res->ground,this->height()-res->ground.height()/2,-2,LAYER_GROUND));
-    bird.reset(new Bird(res->bird[0],130,height()/2-35,2,LAYER_PLAYER));
+    bird.reset(new Bird());
     socre .reset( new Score());
     FrameThread = new MyThread();
     StateThread = new MyThread();
@@ -84,6 +83,14 @@ void Widget::GameOver()
     for(auto i:InSubThread)
     {
         i->gameover();
+    }
+}
+
+void Widget::ReStart()
+{
+    for(auto i:InSubThread)
+    {
+        i->restart();
     }
 }
 

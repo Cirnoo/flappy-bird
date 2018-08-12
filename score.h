@@ -13,6 +13,7 @@ public:
 private:
     void gameover();
     void frame();
+    void restart();
     void show(QPainter &);
     void ShowNum(QPainter &,double x,double y,unsigned int num,QPixmap * Numimg);
     QPointer<ScoreBoard> board;

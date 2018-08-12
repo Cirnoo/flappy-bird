@@ -29,7 +29,7 @@ void MyObject::show(QPainter & p)
 {
     p.translate(x,y);
     p.rotate(-rot);
-    p.drawPixmap(static_cast<int>(-img->width()/2),static_cast<int>(-img->height()/2),*img);
+    p.drawPixmap(QPoint(-img->width()/2,-img->height()/2),*img);
     p.resetTransform();
 }
 

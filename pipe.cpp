@@ -14,6 +14,7 @@ void Pipe::frame()
     if(CheckColli())
     {
         Res::User->tools->SetBlink();
+        Res::User->bird->Drop();
         Res::User->GameOver();
     }
     else
@@ -35,8 +36,19 @@ void Pipe::show(QPainter &p)
 {
     QPixmap & p1=Res::User->res->pipe_down;
     QPixmap & p2=Res::User->res->pipe_up;
-    Res::User->tools->DrawPixmap(x,y,p1,p);
-    Res::User->tools->DrawPixmap(x,y_up,p2,p);
+    Res::User->tools->DrawPixmapAtCenter(x,y,p1,p);
+    Res::User->tools->DrawPixmapAtCenter(x,y_up,p2,p);
+}
+
+void Pipe::gameover()
+{
+    task=false;
+    colli=false;
+}
+
+void Pipe::restart()
+{
+    del_flag=true;
 }
 
 bool Pipe::CheckColli()

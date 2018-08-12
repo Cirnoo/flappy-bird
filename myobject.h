@@ -14,7 +14,7 @@ public:
     int layer=0;
     double rot=0;
     bool navi=false;
-    unsigned int timer=0;
+    int timer=0;
     QPixmap * img=nullptr;
     double vx=0,vy=0,x=0,y=0;
     bool hide=false;
@@ -22,7 +22,7 @@ public:
     bool task=true;
 private:
 protected:
-    void init(QPixmap & _img,double _x,double _y,double _vx,double _vy,int _layer=0);
+    void init(QPixmap & _img,double _x,double _y,double _vx=0,double _vy=0,int _layer=0);
     void DefaultAction();
 signals:
 

@@ -3,14 +3,18 @@
 #include "pipe.h"
 #include <QtGlobal>
 #include <QTime>
-Bird::Bird(QPixmap* _img, double _x, double _y, double _v, int _layer)
+Bird::Bird()
 {
-    init(*img,_x,_y,0,_v,_layer);
-    ani=_img;
-    state=0;
-    Res::User->tools->SetLeader();
-    land=Res::User->height()-Res::User->res->ground.height()-21;
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+    restart();
+    init(*img,130,Res::User->height()/2-50,0,1,LAYER_PLAYER);
+    land=Res::User->height()-Res::User->res->ground.height()-21;
+
+}
+
+Bird::~Bird()
+{
+    DelPipe();
 }
 
 void Bird::keyPress()
@@ -25,11 +29,26 @@ void Bird::keyPress()
         if(state==0)
         {
             state=1;
+
         }
         if(state==1)
         {
             fly();
         }
+    }
+    else
+    {
+        task=true;
+        Res::User->tools->SetBlack();
+
+    }
+}
+
+void Bird::StopPipe()
+{
+    for(auto i:pipelist)
+    {
+        i->task=false;
     }
 }
 
@@ -38,7 +57,7 @@ void Bird::frame()
        img=(interval)?(ani+timer/interval%3):(ani+1);
        logic(state);
        DefaultAction();
-       y=qMin(y,static_cast<double>(land));
+       y=qMin(y,land);
        vy=qMin(v_min,vy+g);
        timer2++;
 }
@@ -53,11 +72,17 @@ void Bird::logic(char state)
     case 1:
         OnGameRun();
         break;
-    case 3:
+    case 2:
         OnFly();
         break;
-    case 4:
+    case 3:
         GameOver();
+        break;
+    case 4:
+        if(Res::User->tools->IsAniPause())
+        {
+            Res::User->ReStart();
+        }
         break;
     default:
 
@@ -75,12 +100,24 @@ void Bird::fly()
 
 void Bird::gameover()
 {
-    Drop();
     return;
 }
 
+void Bird::restart()
+{
+    rot=0;
+    vy=1;
+    interval=20;
+    timer2=0;
+    timer=0;
+    x=130;y=Res::User->height()/2-50;
+    state=0;
+    ani=Res::User->res->bird[0];
+    Res::User->tools->SetLeader();
+}
 
-Pipe * Bird::SetPipe(double y)
+
+QPointer<Pipe> Bird::SetPipe(double y)
 {
     return new Pipe(y);
 }
@@ -126,8 +163,12 @@ void Bird::OnFly()
     g=(vy<4)?((vy<0)?0.2:0.33):0.4;
     if(IsColliGround())
     {
-        Res::User->GameOver();
-        state=4;
+        if(state==1)
+        {
+           Res::User->GameOver();
+           Res::User->tools->SetBlink();
+        }
+        state=3;
         return;
     }
 }
@@ -136,16 +177,30 @@ void Bird::OnFly()
 
 void Bird::Drop()
 {
-    state=3;
+    state=2;
     vy=-1;
     g=0.35;
     interval=0;
+
+}
+
+void Bird::DelPipe()
+{
+    for(auto i:pipelist)
+    {
+        if(!i.isNull())
+        {
+            delete i;
+        }
+    }
+    pipelist.clear();
 }
 
 void Bird::GameOver()
 {
-    task=false;
     Res::User->socre->ShowBoard();
+    task=false;
+    state=4;
 }
 
 

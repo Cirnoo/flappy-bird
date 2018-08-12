@@ -3,13 +3,13 @@
 Back::Back(QPixmap& _img,double _y,double _v,int _layer)
 {
     init(_img,_img.width()/2,_y,_v,0,_layer);
-    x2=x+img->width();
+    x2=x+img->width()-0.5;
 }
 
 void Back::show(QPainter & p)
 {
-    p.drawPixmap(static_cast<int>(x-img->width()/2),static_cast<int>(y-img->height()/2),*img);
-    p.drawPixmap(static_cast<int>(x2-img->width()/2),static_cast<int>(y-img->height()/2),*img);
+    p.drawPixmap(QPointF(x-img->width()/2,y-img->height()/2),*img);
+    p.drawPixmap(QPointF(x2-img->width()/2,y-img->height()/2),*img);
 }
 
 void Back::frame()

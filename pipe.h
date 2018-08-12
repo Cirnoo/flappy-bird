@@ -2,7 +2,7 @@
 #define PIPE_H
 #include "myobject.h"
 
-class Pipe:MyObject
+class Pipe:public MyObject
 {
 public:
     Pipe(double _y);
@@ -10,6 +10,8 @@ public:
 private:
     void frame();
     void show(QPainter & p);
+    void gameover();
+    void restart();
     bool colli=true;
     int space;
     double y_up;

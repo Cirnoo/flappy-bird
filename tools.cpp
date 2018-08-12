@@ -17,6 +17,11 @@ Tools::~Tools()
     }
 }
 
+bool Tools::IsAniPause()
+{
+    return !black_ani.isNull()&&black_ani->timer>31;
+}
+
 
 void Tools::Swap(double & a, double & b)
 {
@@ -32,15 +37,18 @@ void Tools::SetBlink()
 
 void Tools::SetBlack()
 {
-    objlist.push_back(new Restart());
+    auto temp=new Restart();
+    objlist.push_back(temp);
+    black_ani=temp;
 }
+
 
 void Tools::SetLeader()
 {
     objlist.push_back((new StartObject()));
 }
 
-void Tools::DrawPixmap(double x,double y,QPixmap& img,QPainter &p)
+void Tools::DrawPixmapAtCenter(double x,double y,QPixmap& img,QPainter &p)
 {
     p.drawPixmap(static_cast<int>(x-img.width()/2),static_cast<int>(y-img.height()/2),
                  img.width(),img.height(),img);
@@ -62,13 +70,16 @@ QPixmap Tools::SetAlgha(QPixmap &img, unsigned int algha)
 
 Tools::Blink::Blink()
 {
-    Res::User->AddToMainThread(this,Res::User->res->nullimg,Res::User->width()/2,y=Res::User->height()/2);
+    buf=Res::User->res->nullimg;
+    //init(Res::User->res->nullimg,Res::User->width()/2,y=Res::User->height()/2,0,0,LAYER_TOP);
+    //为什么扔子线程就crash?
+    Res::User->AddToMainThread(this,buf,Res::User->width()/2,y=Res::User->height()/2);
 }
 
 void Tools::Blink::frame()
 {
     buf=SetAlgha(Res::User->res->white,170-15*(3-timer)*(3-timer));
-    img=&buf;
+    //img=&Res::User->res->white;
     if(++timer==6)
     {
         del_flag=true;
@@ -76,32 +87,35 @@ void Tools::Blink::frame()
 
 }
 
+
+
 Tools::Restart::Restart()
 {
 
-    black=Res::User->res->black;
-    bit=black;
-    init(bit,Res::User->width()/2,Res::User->height()/2,0,0,LAYER_TOP);
+    bit=Res::User->res->black;
+    img=&Res::User->res->nullimg;
+    Res::User->AddToMainThread(this,*img,Res::User->width()/2,Res::User->height()/2);
 }
 
 void Tools::Restart::frame()
 {
-    if(flag)
+    if(ani_pause_flag)
     {
-        if(timer>30&&timer<60)
+        if(timer>=30&&timer<=50)
         {
             timer++;
             return;
         }
-        else if(timer>60)
+        else if(timer>50)
         {
-            flag=false;
+            ani_pause_flag=false;
             timer=31;
         }
     }
-    int r=((timer-dead_time/2)*(timer-dead_time/2)*static_cast<unsigned int>(bit.width())/1800);
-    bit=black;
-    img=&black;
+
+    int r=(timer-dead_time/2)*(timer-dead_time/2)*bit.width()/1200;
+    bit=Res::User->res->black;
+    img=&bit;
     QPainter p;
     p.begin(&bit);
     QBrush brush(Qt::color0);
@@ -115,10 +129,9 @@ void Tools::Restart::frame()
     }
 }
 
-
 Tools::StartObject::StartObject()
 {
-    Res::User->AddToMainThread(this,Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70);
+    init(Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70,0,0,LAYER_TOP);
 }
 
 Tools::StartObject::~StartObject()

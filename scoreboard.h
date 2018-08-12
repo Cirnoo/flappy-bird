@@ -11,6 +11,7 @@ private:
     void frame();
     void show(QPainter &);
     void gameover();
+    void restart();
     unsigned int timer2=0;
     QPixmap over;
     QPixmap play;

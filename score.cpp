@@ -23,6 +23,11 @@ void Score::frame()
     return;
 }
 
+void Score::restart()
+{
+    now=0;
+}
+
 void Score::show(QPainter &p)
 {
     ShowNum(p,x,y,now,img);
@@ -32,14 +37,14 @@ void Score::ShowNum(QPainter & p, double x, double y,unsigned int num,QPixmap * 
 {
     if(num==0)
     {
-        Res::User->tools->DrawPixmap(x,y,*Numimg,p);
+        Res::User->tools->DrawPixmapAtCenter(x,y,*Numimg,p);
     }
     unsigned int temp=num;
     int count=-1;
     while (temp>0)
     {
         count++;
-        Res::User->tools->DrawPixmap(x-count*Numimg->width(),y,*(Numimg+temp%10),p);
+        Res::User->tools->DrawPixmapAtCenter(x-count*Numimg->width(),y,*(Numimg+temp%10),p);
         temp/=10;
     }
 }

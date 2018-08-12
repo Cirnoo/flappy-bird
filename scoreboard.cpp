@@ -20,7 +20,7 @@ void ScoreBoard::frame()
 {
     if(timer>=30&&timer<40)
     {
-        over=Res::User->tools->SetAlgha(Res::User->res->game_over,24*(timer-30));
+        over=Res::User->tools->SetAlgha(Res::User->res->game_over,15+24*(timer-30));
         y_over=Res::User->height()/2-150+(timer-35)*(timer-35)*0.5;
     }
     else if(timer>60&&timer<=102)
@@ -44,15 +44,15 @@ void ScoreBoard::show(QPainter & p)
 {
     if(timer>30)
     {
-        Res::User->tools->DrawPixmap(x_over,y_over,over,p);
+        Res::User->tools->DrawPixmapAtCenter(x_over,y_over,over,p);
     }
     if(timer>60)
     {
-        Res::User->tools->DrawPixmap(x_board,y_board,*board,p);
+        Res::User->tools->DrawPixmapAtCenter(x_board,y_board,*board,p);
     }
     if(timer>130)
     {
-        Res::User->tools->DrawPixmap(x_play,y_play,play,p);
+        Res::User->tools->DrawPixmapAtCenter(x_play,y_play,play,p);
     }
     if(timer>110)
     {
@@ -63,4 +63,9 @@ void ScoreBoard::show(QPainter & p)
 void ScoreBoard::gameover()
 {
     return;
+}
+
+void ScoreBoard::restart()
+{
+    del_flag=true;
 }
