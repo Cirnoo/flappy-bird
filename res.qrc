@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/atlas.png</file>
+    </qresource>
+</RCC>
