@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>res/atlas.png</file>
+        <file>res/die.wav</file>
+        <file>res/fly.wav</file>
+        <file>res/hit.wav</file>
+        <file>res/panel.wav</file>
+        <file>res/point.wav</file>
+        <file>res/ico.ico</file>
     </qresource>
 </RCC>

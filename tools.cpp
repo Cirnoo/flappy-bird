@@ -101,7 +101,7 @@ void Tools::Restart::frame()
 {
     if(ani_pause_flag)
     {
-        if(timer>=30&&timer<=50)
+        if(timer>30&&timer<=50)
         {
             timer++;
             return;
@@ -131,7 +131,8 @@ void Tools::Restart::frame()
 
 Tools::StartObject::StartObject()
 {
-    init(Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70,0,0,LAYER_TOP);
+    //init(Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70,0,0,LAYER_TOP);
+    Res::User->AddToMainThread(this,Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70);
 }
 
 Tools::StartObject::~StartObject()

@@ -3,25 +3,25 @@
 #include<QDebug>
 #include<mythread.h>
 #include <QKeyEvent>
-
 Widget::Widget(QWidget *parent) :
     QGLWidget(parent),
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
     //setWindowFlags(Qt::FramelessWindowHint);
-    setFixedSize(430,768);
-    view=QPixmap(430,760);
+    setFixedSize(288*RESOLUTION,512*RESOLUTION);
+    view=QPixmap(this->size());
     init();
     this->grabKeyboard();
 }
 
 Widget::~Widget()
 {
-    thread1->quit();
-    thread1->wait();
-    thread2->quit();
-    thread2->wait();
+    for(int i=0;i<3;i++)
+    {
+        thread[i]->quit();
+        thread[i]->wait();
+    }
     delete ui;
 }
 
@@ -48,18 +48,22 @@ void Widget::init()
     socre .reset( new Score());
     FrameThread = new MyThread();
     StateThread = new MyThread();
-    thread1 = new QThread(this);
-    thread2 = new QThread(this);
-    FrameThread->moveToThread(thread1);
-    thread1->start();
-    thread2->start();
-    timer.setInterval(12);
+    for(int i=0;i<3;i++)
+    {
+        thread[i]=new QThread(this);
+    }
+    FrameThread->moveToThread(thread[0]);
+    StateThread->moveToThread(thread[1]);
+    thread[0]->start();
+    thread[1]->start();
+    timer.setInterval(13);
     timer.start();
     timer.setTimerType(Qt::PreciseTimer);
     connect(&timer, &QTimer::timeout, FrameThread,&MyThread::MyFrame);
     connect(this, &Widget::SendKeyPress, StateThread,&MyThread::MyKeyPress);
     connect(this, &Widget::Do, this,&Widget::frame2);
-    connect(&timer, &QTimer::timeout, StateThread,&MyThread::MyView);
+    connect(this,SIGNAL(SoundSig(int)), StateThread,SLOT(Sound(int)));
+    connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
 void Widget::frame2()
@@ -72,7 +76,21 @@ void Widget::paintEvent(QPaintEvent *)
 
     if(!update_flag)
         return;
-
+    QPainter painter(&view);
+    for(auto i:InSubThread)
+    {
+        if(!i->hide)
+        {
+            i->show(painter);
+        }
+    }
+    for(auto i:InMainThread)
+    {
+        if(!i->hide)
+        {
+            i->show(painter);
+        }
+    }
     QPainter painter2(this);
     painter2.drawPixmap(rect(),view);
     update_flag=false;
@@ -105,27 +123,12 @@ void Widget::frame()  //每帧执行
         emit Do();
     }
     update_flag=true;
-    update();
+
 }
 
 void Widget::View()
 {
-    QPainter painter(&view);
-    for(auto i:InSubThread)
-    {
-        if(!i->hide)
-        {
-            i->show(painter);
-        }
-    }
-    for(auto i:InMainThread)
-    {
-        if(!i->hide)
-        {
-            i->show(painter);
-        }
-    }
-
+    update();
 }
 void Widget::keyPressEvent(QKeyEvent *event)
 {

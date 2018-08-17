@@ -54,6 +54,7 @@ void Score::ShowNum(QPainter & p, double x, double y,unsigned int num,QPixmap * 
 void Score::ScoreAdd()
 {
     now++;
+    emit Res::User->SoundSig(SPOINT);
 }
 
 void Score::ShowBoard()

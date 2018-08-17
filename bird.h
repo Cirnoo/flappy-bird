@@ -15,7 +15,8 @@ public:
 private:
     QPixmap * ani=nullptr;
     unsigned int interval=20;
-    unsigned int timer2=0;
+    int timer_key_delay=0;
+    int timer_drop_delay=0;
     double rot_add=-1;
     double land;
     double g=0;

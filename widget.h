@@ -6,6 +6,11 @@
 #include"tools.h"
 #include"pipe.h"
 #include"score.h"
+#include<QTimer>
+#include <QThread>
+#include <QGLWidget>
+#include<QMultiMap>
+#include<QApplication>
 namespace Ui {
 class Widget;
 }
@@ -34,6 +39,7 @@ public slots:
 signals:
     void SendKeyPress();
     void Do();
+    void SoundSig(int);
 private:
     void init();
     void frame2();
@@ -45,8 +51,7 @@ private:
     Ui::Widget *ui;
     MyThread * FrameThread;
     MyThread * StateThread;
-    QThread *thread1;
-    QThread *thread2;
+    QThread *thread[3];
     QPixmap view;
     void keyPressEvent(QKeyEvent * event);
     void mousePressEvent(QMouseEvent * event);

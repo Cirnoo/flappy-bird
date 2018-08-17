@@ -15,8 +15,8 @@ void MyThread::MyKeyPress()
     Res::User->bird->keyPress();
 }
 
-void MyThread::MyView()
+void MyThread::Sound(int s)
 {
-    Res::User->View();
+    Res::User->res->sound[s]->play();
 }
 

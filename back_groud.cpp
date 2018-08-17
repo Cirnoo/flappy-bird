@@ -3,7 +3,8 @@
 Back::Back(QPixmap& _img,double _y,double _v,int _layer)
 {
     init(_img,_img.width()/2,_y,_v,0,_layer);
-    x2=x+img->width()-0.5;
+    x2=x+img->width()-1;
+
 }
 
 void Back::show(QPainter & p)
@@ -19,7 +20,7 @@ void Back::frame()
     if(x<=-img->width()/2)
     {
         x=img->width()/2;
-        x2=x+img->width();
+        x2=x+img->width()-1;
     }
 }
 

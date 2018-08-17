@@ -1,6 +1,6 @@
 #ifndef MYTHREAD_H
 #define MYTHREAD_H
-#include <QObject>
+#include"sys.h"
 class Widget;
 class MyThread : public QObject
 {
@@ -9,11 +9,10 @@ public:
      MyThread();
     void MyFrame();//线程处理函数
     void MyKeyPress();
-    void MyView();
 signals:
 
 public slots:
-
+    void Sound(int s);
 
 protected:
     bool isStop=false;

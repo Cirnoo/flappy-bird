@@ -19,17 +19,16 @@ Bird::~Bird()
 
 void Bird::keyPress()
 {
-    if(timer2<=10||y<20)
+    if(timer_key_delay<=10||y<20)
     {
         return;
     }
-    timer2=0;
+    timer_key_delay=0;
     if(task)
     {
         if(state==0)
         {
             state=1;
-
         }
         if(state==1)
         {
@@ -59,7 +58,7 @@ void Bird::frame()
        DefaultAction();
        y=qMin(y,land);
        vy=qMin(v_min,vy+g);
-       timer2++;
+       timer_key_delay++;
 }
 
 void Bird::logic(char state)
@@ -92,7 +91,7 @@ void Bird::logic(char state)
 
 void Bird::fly()
 {
-
+    emit Res::User->SoundSig(FLY);
     vy=-6.5;
     interval=5;
     rot_add=(rot>0)?3:(25-rot)/12.0;
@@ -108,7 +107,8 @@ void Bird::restart()
     rot=0;
     vy=1;
     interval=20;
-    timer2=0;
+    timer_key_delay=0;
+    timer_drop_delay=0;
     timer=0;
     x=130;y=Res::User->height()/2-50;
     state=0;
@@ -153,7 +153,7 @@ void Bird::OnFly()
     }
     else
     {
-        rot=(vy>5)?rot-4.5:(vy>4)?rot-3.5:(vy>3)?rot-1:rot;
+        rot=(vy>5)?rot-4.5:(vy>4)?rot-2.5:(vy>3)?rot-1:rot;
     }
     rot=(rot<-89)?-90:rot;
     if(vy>2)
@@ -167,10 +167,20 @@ void Bird::OnFly()
         {
            Res::User->GameOver();
            Res::User->tools->SetBlink();
+           emit Res::User->SoundSig(HIT);
         }
         state=3;
         return;
     }
+    else if(state==2)
+    {
+        timer_drop_delay++;
+        if(timer_drop_delay==35)
+        {
+            emit Res::User->SoundSig(DIE);
+        }
+    }
+
 }
 
 
@@ -181,7 +191,7 @@ void Bird::Drop()
     vy=-1;
     g=0.35;
     interval=0;
-
+    emit Res::User->SoundSig(HIT);
 }
 
 void Bird::DelPipe()

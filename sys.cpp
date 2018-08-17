@@ -2,11 +2,11 @@
 #include<QBitmap>
 #include<QRgb>
 #include<QColor>
-#include "widget.h"
+#include"widget.h"
+//QSound Res::s_fly(":/res/fly.wav");
 Widget*  Res::User=nullptr;
 Res::Res( Widget * p)
 {
-
     User=p;
     back_temp=QPixmap(":/res/atlas.png");
     //back_temp.setMask(back_temp.createMaskFromColor(QColor(0,0,0),Qt::MaskInColor));
@@ -34,6 +34,14 @@ Res::Res( Widget * p)
     game_over=set(784,116,204,54);
     score_board=set(0,516,238,126);
     button_play=set(702,234,116,70);
+    back_temp=nullimg;
+    QString temp [5]={"die","fly","hit","panel","point"};
+    QString path=":/res/";
+    for(int i=0;i<5;i++)
+    {
+        QString t=path+temp[i]+".wav";
+        sound[i]=new QSound(t);
+    }
 }
 
 QPixmap Res::set(int  x, int  y, int  w, int  h)
@@ -41,4 +49,5 @@ QPixmap Res::set(int  x, int  y, int  w, int  h)
     return back_temp.copy(static_cast<int>(x*RESOLUTION),static_cast<int>(y*RESOLUTION)
                     ,static_cast<int>(w*RESOLUTION),static_cast<int>(h*RESOLUTION));
 }
+
 
