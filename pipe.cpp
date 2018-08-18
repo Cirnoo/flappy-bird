@@ -36,8 +36,8 @@ void Pipe::show(QPainter &p)
 {
     QPixmap & p1=Res::User->res->pipe_down;
     QPixmap & p2=Res::User->res->pipe_up;
-    Res::User->tools->DrawPixmapAtCenter(x,y,p1,p);
-    Res::User->tools->DrawPixmapAtCenter(x,y_up,p2,p);
+    DrawPixmapAtCenter(x,y,p1,p);
+    DrawPixmapAtCenter(x,y_up,p2,p);
 }
 
 void Pipe::gameover()

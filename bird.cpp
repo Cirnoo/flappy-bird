@@ -3,13 +3,14 @@
 #include "pipe.h"
 #include <QtGlobal>
 #include <QTime>
+using namespace STATE;
 Bird::Bird()
 {
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     restart();
     init(*img,130,Res::User->height()/2-50,0,1,LAYER_PLAYER);
     land=Res::User->height()-Res::User->res->ground.height()-21;
-
+    state=START;
 }
 
 Bird::~Bird()
@@ -26,11 +27,11 @@ void Bird::keyPress()
     timer_key_delay=0;
     if(task)
     {
-        if(state==0)
+        if(state==START)
         {
-            state=1;
+            state=RUN;
         }
-        if(state==1)
+        if(state==RUN)
         {
             fly();
         }
@@ -65,19 +66,19 @@ void Bird::logic(char state)
 {
     switch (state)
     {
-    case 0:
+    case START:
         GameReady();
         break;
-    case 1:
+    case RUN:
         OnGameRun();
         break;
-    case 2:
+    case DROP:
         OnFly();
         break;
-    case 3:
+    case OVER:
         GameOver();
         break;
-    case 4:
+    case RESTART:
         if(Res::User->tools->IsAniPause())
         {
             Res::User->ReStart();
@@ -91,7 +92,7 @@ void Bird::logic(char state)
 
 void Bird::fly()
 {
-    emit Res::User->SoundSig(FLY);
+    emit Res::User->SoundSig(MYSOUND::FLY);
     vy=-6.5;
     interval=5;
     rot_add=(rot>0)?3:(25-rot)/12.0;
@@ -111,7 +112,7 @@ void Bird::restart()
     timer_drop_delay=0;
     timer=0;
     x=130;y=Res::User->height()/2-50;
-    state=0;
+    state=START;
     ani=Res::User->res->bird[0];
     Res::User->tools->SetLeader();
 }
@@ -163,21 +164,21 @@ void Bird::OnFly()
     g=(vy<4)?((vy<0)?0.2:0.33):0.4;
     if(IsColliGround())
     {
-        if(state==1)
+        if(state==RUN)
         {
            Res::User->GameOver();
            Res::User->tools->SetBlink();
-           emit Res::User->SoundSig(HIT);
+           emit Res::User->SoundSig(MYSOUND::HIT);
         }
-        state=3;
+        state=OVER;
         return;
     }
-    else if(state==2)
+    else if(state==DROP)
     {
         timer_drop_delay++;
         if(timer_drop_delay==35)
         {
-            emit Res::User->SoundSig(DIE);
+            emit Res::User->SoundSig(MYSOUND::DIE);
         }
     }
 
@@ -187,11 +188,11 @@ void Bird::OnFly()
 
 void Bird::Drop()
 {
-    state=2;
+    state=DROP;
     vy=-1;
     g=0.35;
     interval=0;
-    emit Res::User->SoundSig(HIT);
+    emit Res::User->SoundSig(MYSOUND::HIT);
 }
 
 void Bird::DelPipe()
@@ -210,7 +211,7 @@ void Bird::GameOver()
 {
     Res::User->socre->ShowBoard();
     task=false;
-    state=4;
+    state=RESTART;
 }
 
 

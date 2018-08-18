@@ -46,23 +46,20 @@ void Widget::init()
     ground.reset(new Back(res->ground,this->height()-res->ground.height()/2,-2,LAYER_GROUND));
     bird.reset(new Bird());
     socre .reset( new Score());
-    FrameThread = new MyThread();
-    StateThread = new MyThread();
     for(int i=0;i<3;i++)
     {
+        my_thread[i]=new MyThread();
         thread[i]=new QThread(this);
+        my_thread[i]->moveToThread(thread[i]);
+        thread[i]->start();
     }
-    FrameThread->moveToThread(thread[0]);
-    StateThread->moveToThread(thread[1]);
-    thread[0]->start();
-    thread[1]->start();
     timer.setInterval(13);
     timer.start();
     timer.setTimerType(Qt::PreciseTimer);
-    connect(&timer, &QTimer::timeout, FrameThread,&MyThread::MyFrame);
-    connect(this, &Widget::SendKeyPress, StateThread,&MyThread::MyKeyPress);
+    connect(&timer, &QTimer::timeout,my_thread[THREAD::FRAME],&MyThread::MyFrame);
+    connect(this, &Widget::SendKeyPress,my_thread[THREAD::STATE],&MyThread::MyKeyPress);
     connect(this, &Widget::Do, this,&Widget::frame2);
-    connect(this,SIGNAL(SoundSig(int)), StateThread,SLOT(Sound(int)));
+    connect(this,SIGNAL(SoundSig(int)),my_thread[THREAD::SOUND],SLOT(Sound(int)));
     connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
@@ -126,10 +123,6 @@ void Widget::frame()  //每帧执行
 
 }
 
-void Widget::View()
-{
-    update();
-}
 void Widget::keyPressEvent(QKeyEvent *event)
 {
     if(event->key()==Qt::Key_Space)

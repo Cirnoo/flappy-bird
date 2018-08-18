@@ -15,6 +15,7 @@ public:
 
     private:
         void frame();
+        void show(QPainter &);
         void gameover(){}
         void restart(){}
         QPixmap buf;
@@ -26,29 +27,32 @@ public:
     friend class Tools;
     private:
         void frame();
+        void show(QPainter &);
         void gameover(){}
         void restart(){}
         QBitmap bit;
         unsigned char dead_time=60;
         bool ani_pause_flag=true;
+        int r;
     };
     class StartObject:public MyObject
     {
     public:
         StartObject();
-        ~StartObject();
     private:
         void frame();
+        void show(QPainter &);
         void gameover(){}
         void restart(){}
         QPixmap buf;
+
     };
     bool IsAniPause();
     void Swap(double & ,double &);
     void SetBlink();
     void SetBlack();
     void SetLeader();
-    void DrawPixmapAtCenter(double x,double y,QPixmap & img,QPainter & p);
+    //void DrawPixmapAtCenter(double x,double y,QPixmap & img,QPainter & p);
     static QPixmap SetAlgha(QPixmap &,unsigned int algha);
 private:
     QList<QPointer<MyObject>> objlist;

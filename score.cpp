@@ -37,14 +37,14 @@ void Score::ShowNum(QPainter & p, double x, double y,unsigned int num,QPixmap * 
 {
     if(num==0)
     {
-        Res::User->tools->DrawPixmapAtCenter(x,y,*Numimg,p);
+        DrawPixmapAtCenter(x,y,*Numimg,p);
     }
     unsigned int temp=num;
     int count=-1;
     while (temp>0)
     {
         count++;
-        Res::User->tools->DrawPixmapAtCenter(x-count*Numimg->width(),y,*(Numimg+temp%10),p);
+        DrawPixmapAtCenter(x-count*Numimg->width(),y,*(Numimg+temp%10),p);
         temp/=10;
     }
 }
@@ -54,7 +54,7 @@ void Score::ShowNum(QPainter & p, double x, double y,unsigned int num,QPixmap * 
 void Score::ScoreAdd()
 {
     now++;
-    emit Res::User->SoundSig(SPOINT);
+    emit Res::User->SoundSig(MYSOUND::POINT);
 }
 
 void Score::ShowBoard()

@@ -51,3 +51,9 @@ QPixmap Res::set(int  x, int  y, int  w, int  h)
 }
 
 
+
+void DrawPixmapAtCenter(double x, double y, QPixmap &img, QPainter &p)
+{
+    p.drawPixmap(static_cast<int>(x-img.width()/2),static_cast<int>(y-img.height()/2),
+                 img.width(),img.height(),img);
+}

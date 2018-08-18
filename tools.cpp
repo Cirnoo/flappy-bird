@@ -48,11 +48,7 @@ void Tools::SetLeader()
     objlist.push_back((new StartObject()));
 }
 
-void Tools::DrawPixmapAtCenter(double x,double y,QPixmap& img,QPainter &p)
-{
-    p.drawPixmap(static_cast<int>(x-img.width()/2),static_cast<int>(y-img.height()/2),
-                 img.width(),img.height(),img);
-}
+
 
 
 
@@ -71,30 +67,31 @@ QPixmap Tools::SetAlgha(QPixmap &img, unsigned int algha)
 Tools::Blink::Blink()
 {
     buf=Res::User->res->nullimg;
-    //init(Res::User->res->nullimg,Res::User->width()/2,y=Res::User->height()/2,0,0,LAYER_TOP);
-    //为什么扔子线程就crash?
-    Res::User->AddToMainThread(this,buf,Res::User->width()/2,y=Res::User->height()/2);
+    init(buf,Res::User->width()/2,Res::User->height()/2,0,0,LAYER_TOP);
 }
 
 void Tools::Blink::frame()
 {
-    buf=SetAlgha(Res::User->res->white,170-15*(3-timer)*(3-timer));
-    //img=&Res::User->res->white;
-    if(++timer==6)
+    if(++timer==4)
     {
         del_flag=true;
     }
+}
 
+
+
+void Tools::Blink::show(QPainter & p)
+{
+     buf=SetAlgha(Res::User->res->white,170-15*(3-timer)*(3-timer));
+     p.drawPixmap(0,0,buf);
 }
 
 
 
 Tools::Restart::Restart()
 {
-
     bit=Res::User->res->black;
-    img=&Res::User->res->nullimg;
-    Res::User->AddToMainThread(this,*img,Res::User->width()/2,Res::User->height()/2);
+    init(Res::User->res->nullimg,Res::User->width()/2,Res::User->height()/2,0,0,LAYER_TOP);
 }
 
 void Tools::Restart::frame()
@@ -112,44 +109,48 @@ void Tools::Restart::frame()
             timer=31;
         }
     }
-
-    int r=(timer-dead_time/2)*(timer-dead_time/2)*bit.width()/1200;
-    bit=Res::User->res->black;
-    img=&bit;
-    QPainter p;
-    p.begin(&bit);
-    QBrush brush(Qt::color0);
-    p.setBrush(brush);
-    p.drawEllipse(QPoint(bit.width()/2,bit.height()/2),r,r);
-    p.end();
-    img->setMask(bit);
+    r=(timer-dead_time/2)*(timer-dead_time/2)*bit.width()/1200;
     if(++timer==dead_time)
     {
         del_flag=true;
     }
 }
 
-Tools::StartObject::StartObject()
+void Tools::Restart::show(QPainter & p)
 {
-    //init(Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70,0,0,LAYER_TOP);
-    Res::User->AddToMainThread(this,Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70);
+    bit=Res::User->res->black;
+    QPainter painter;
+    painter.begin(&bit);
+    QBrush brush(Qt::color0);
+    painter.setBrush(brush);
+    painter.drawEllipse(QPoint(bit.width()/2,bit.height()/2),r,r);
+    painter.end();
+    bit.setMask(bit);
+    p.drawPixmap(QPointF(x-bit.width()/2,y-bit.height()/2),bit);
 }
 
-Tools::StartObject::~StartObject()
+Tools::StartObject::StartObject()
 {
-    //qDebug()<<"obj delete ok";
+    init(Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70,0,0,LAYER_TOP);
 }
+
+
 
 void Tools::StartObject::frame()
 {
     if(Res::User->bird->state!=0)
     {
-        buf=SetAlgha(Res::User->res->game_ready,255-5*timer++);
         img=&buf;
-        if(timer==50)
+        if(timer++==50)
         {
             del_flag=true;
-            //qDebug()<<GetCurrentThreadId();
         }
     }
+
+}
+
+void Tools::StartObject::show(QPainter & p)
+{
+    buf=SetAlgha(Res::User->res->game_ready,255-5*timer);
+    DrawPixmapAtCenter(x,y,buf,p);
 }

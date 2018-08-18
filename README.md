@@ -5,11 +5,12 @@
 1. 主体游戏框架
 2. start & gameover的动画
 3. restart的动画
+4. 音效
 
 #### 待完成的部分
 1. 各种button按钮
 2. bird和background的选择
 3. 自定义Label
-4. 音效
+
 
 *希望能有人给我提一些改进的建议，感谢*

@@ -11,6 +11,7 @@
 #include <QGLWidget>
 #include<QMultiMap>
 #include<QApplication>
+
 namespace Ui {
 class Widget;
 }
@@ -35,7 +36,6 @@ public:
     void ReStart();
 public slots:
     void frame();
-    void View();
 signals:
     void SendKeyPress();
     void Do();
@@ -49,8 +49,7 @@ private:
     QMultiMap<int,QPointer<MyObject>> InMainThread;
     void paintEvent(QPaintEvent *);
     Ui::Widget *ui;
-    MyThread * FrameThread;
-    MyThread * StateThread;
+    MyThread * my_thread[3];
     QThread *thread[3];
     QPixmap view;
     void keyPressEvent(QKeyEvent * event);
