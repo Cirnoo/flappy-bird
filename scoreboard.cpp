@@ -1,5 +1,6 @@
 #include "scoreboard.h"
 #include"widget.h"
+#include"LabelObj.h"
 ScoreBoard::ScoreBoard()
 {
     auto & p=Res::User;
@@ -13,11 +14,20 @@ ScoreBoard::ScoreBoard()
     y_play=p->height()-230;
     y_board=p->height()+35;
     p->AddToSubThread(layer,this);
+    play=Res::User->res->nullimg;
+}
 
+ScoreBoard::~ScoreBoard()
+{
+    if(!play_label.isNull())
+    {
+        delete play_label;
+    }
 }
 
 void ScoreBoard::frame()
 {
+
     if(timer==29)
     {
         emit Res::User->SoundSig(MYSOUND::PANEL);
@@ -34,6 +44,13 @@ void ScoreBoard::frame()
     {
          y_board-=10;
     }
+    else if(timer==130)
+    {
+        //
+//        play_label=new LabelObj(play);
+//        play_label->x=x_board;
+//        play_label->y=Res::User->height()-230;
+    }
     else if(timer>170)
         task=false;
     if(timer>110&&timer2<30)
@@ -45,6 +62,7 @@ void ScoreBoard::frame()
 
 void ScoreBoard::show(QPainter & p)
 {
+
     if(timer>30)
     {
         if(timer<40)

@@ -11,7 +11,6 @@
 #include <QGLWidget>
 #include<QMultiMap>
 #include<QApplication>
-
 namespace Ui {
 class Widget;
 }

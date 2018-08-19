@@ -1,11 +1,12 @@
 #ifndef SCOREBOARD_H
 #define SCOREBOARD_H
 #include"myobject.h"
-
+class LabelObj;
 class ScoreBoard:public MyObject
 {
 public:
     ScoreBoard();
+    ~ScoreBoard();
     friend class Score;
 private:
     void frame();
@@ -15,6 +16,7 @@ private:
     unsigned int timer2=0;
     QPixmap over;
     QPixmap play;
+    QPointer<LabelObj> play_label;
     QPixmap * board;
     int x_over,y_over,x_board,y_board,x_play,y_play;//over和board坐标
 };

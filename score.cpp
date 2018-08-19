@@ -7,6 +7,7 @@ Score::Score()
     x=p->width()/2;y=120;
     layer=LAYER_PLAYER;
     p->AddToSubThread(layer,this);
+
 }
 
 Score::~Score()

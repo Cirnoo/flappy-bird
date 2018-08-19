@@ -7,5 +7,6 @@
         <file>res/panel.wav</file>
         <file>res/point.wav</file>
         <file>res/ico.ico</file>
+        <file>res/mario.mp3</file>
     </qresource>
 </RCC>

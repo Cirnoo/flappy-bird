@@ -35,7 +35,8 @@ SOURCES += \
     pipe.cpp \
     mythread.cpp \
     score.cpp \
-    scoreboard.cpp
+    scoreboard.cpp \
+    labelobj.cpp
 
 HEADERS += \
         widget.h \
@@ -49,7 +50,8 @@ HEADERS += \
     mythread.h \
     score.h \
     scoreboard.h \
-    stable.h
+    stable.h \
+    labelobj.h
 
 FORMS += \
         widget.ui

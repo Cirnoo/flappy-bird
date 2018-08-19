@@ -24,8 +24,6 @@ private:
 protected:
     void init(QPixmap & _img,double _x,double _y,double _vx=0,double _vy=0,int _layer=0);
     void DefaultAction();
-signals:
 
-public slots:
 };
 #endif
