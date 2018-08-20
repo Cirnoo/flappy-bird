@@ -1,7 +1,7 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 #include"myobject.h"
-#include"back_groud.h"
+#include"backgroud.h"
 #include"bird.h"
 #include"tools.h"
 #include"pipe.h"
@@ -11,6 +11,7 @@
 #include <QGLWidget>
 #include<QMultiMap>
 #include<QApplication>
+class MyLabel;
 namespace Ui {
 class Widget;
 }
@@ -23,6 +24,7 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 public:
+
     void AddToSubThread(int,MyObject*);
     void AddToMainThread(MyObject * obj,QPixmap & img,double x=0,double y=0);
     QScopedPointer<Res> res;
@@ -33,6 +35,7 @@ public:
     QScopedPointer<Score>  socre;
     void GameOver();
     void ReStart();
+    QTimer timer;
 public slots:
     void frame();
 signals:
@@ -42,10 +45,9 @@ signals:
 private:
     void init();
     void frame2();
-    QTimer timer;
     QScopedPointer<Back> back;
-    QMultiMap<int,QPointer<MyObject>> InSubThread;
-    QMultiMap<int,QPointer<MyObject>> InMainThread;
+    QMultiMap<int,MyObject *> InSubThread;
+    QMultiMap<int,MyObject *> InMainThread;
     void paintEvent(QPaintEvent *);
     Ui::Widget *ui;
     MyThread * my_thread[3];
@@ -54,7 +56,7 @@ private:
     void keyPressEvent(QKeyEvent * event);
     void mousePressEvent(QMouseEvent * event);
     bool update_flag=false;
-    void DoFrame(QMultiMap<int,QPointer<MyObject>> &);
+    void DoFrame(QMultiMap<int, MyObject*> & );
 };
 
 

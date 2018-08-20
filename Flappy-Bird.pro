@@ -26,24 +26,20 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         widget.cpp \
-    back_groud.cpp \
     myobject.cpp \
     sys.cpp \
-    mylabel.cpp \
     bird.cpp \
     tools.cpp \
     pipe.cpp \
     mythread.cpp \
     score.cpp \
     scoreboard.cpp \
-    labelobj.cpp
+    backgroud.cpp
 
 HEADERS += \
         widget.h \
-    back_groud.h \
     myobject.h \
     sys.h \
-    mylabel.h \
     bird.h \
     tools.h \
     pipe.h \
@@ -51,7 +47,7 @@ HEADERS += \
     score.h \
     scoreboard.h \
     stable.h \
-    labelobj.h
+    backgroud.h
 
 FORMS += \
         widget.ui

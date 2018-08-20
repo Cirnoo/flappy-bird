@@ -3,21 +3,22 @@
 #include<QRgb>
 #include<QColor>
 #include"widget.h"
-//QSound Res::s_fly(":/res/fly.wav");
-Widget*  Res::User=nullptr;
-Res::Res( Widget * p)
+Widget *  Res::User=nullptr;
+Res::Res(Widget* p)
 {
     User=p;
     back_temp=QPixmap(":/res/atlas.png");
     //back_temp.setMask(back_temp.createMaskFromColor(QColor(0,0,0),Qt::MaskInColor));
     back_temp=back_temp.scaled(back_temp.size()*RESOLUTION);
     nullimg=QPixmap(0,0);
-    day_back=set(0,0,288,512);
-    night_back=set(292,0,288,512);
+    background[0]=set(0,0,288,512);
+    background[1]=set(292,0,288,512);
     ground=set(584,0,336,112);
     for(int i=0;i<3;i++)
     {
         bird[0][i]=set(56*i,970,48,48);
+        bird[1][i]=set(224,646+52*i,48,48);
+        bird[2][i]=set(224,646+52*(i+3),48,48);
     }
     game_ready=set(435,516,200,165);
     for(int i=0;i<10;i++)
@@ -34,6 +35,8 @@ Res::Res( Widget * p)
     game_over=set(784,116,204,54);
     score_board=set(0,516,238,126);
     button_play=set(702,234,116,70);
+    minus=QPixmap(":/res/minus.png").scaled(50,50);
+    close=QPixmap(":/res/close.png").scaled(50,50);
     back_temp=nullimg;
     QString temp [5]={"die","fly","hit","panel","point"};
     QString path=":/res/";

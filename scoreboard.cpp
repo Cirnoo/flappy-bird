@@ -19,11 +19,10 @@ ScoreBoard::ScoreBoard()
 
 ScoreBoard::~ScoreBoard()
 {
-    if(!play_label.isNull())
-    {
-        delete play_label;
-    }
+
 }
+
+
 
 void ScoreBoard::frame()
 {
@@ -47,9 +46,7 @@ void ScoreBoard::frame()
     else if(timer==130)
     {
         //
-//        play_label=new LabelObj(play);
-//        play_label->x=x_board;
-//        play_label->y=Res::User->height()-230;
+
     }
     else if(timer>170)
         task=false;

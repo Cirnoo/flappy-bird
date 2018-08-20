@@ -9,6 +9,7 @@ private:
     double x2;
     void show(QPainter & );
     void frame();
+    void restart();
 };
 
 #endif // BACK_H

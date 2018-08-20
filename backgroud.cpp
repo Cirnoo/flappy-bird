@@ -1,4 +1,4 @@
-#include "back_groud.h"
+#include "backgroud.h"
 #include "widget.h"
 Back::Back(QPixmap& _img,double _y,double _v,int _layer)
 {
@@ -21,6 +21,15 @@ void Back::frame()
     {
         x=img->width()/2;
         x2=x+img->width()-1;
+    }
+}
+
+void Back::restart()
+{
+    task=true;
+    if(layer==LAYER_BACK)
+    {
+        img=&Res::User->res->background[qrand()%2];
     }
 }
 

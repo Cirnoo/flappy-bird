@@ -6,10 +6,9 @@
 2. start & gameover的动画
 3. restart的动画
 4. 音效
+5. 随机的bird和background
 
 #### 待完成的部分
-1. 各种button按钮
-2. bird和background的选择
 3. 自定义Label
 
 

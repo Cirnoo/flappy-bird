@@ -4,17 +4,22 @@
 #include"myobject.h"
 class LabelObj :public MyObject
 {
+    Q_OBJECT
 public:
     LabelObj(QPixmap _img);
-    ~LabelObj(){}
+    ~LabelObj();
     void MouseMove(bool);
 private:
-    MyLabel label;
+    MyLabel* label;
     void frame();
     void show(QPainter &){}
+    void restart();
     bool is_mouse_in=false;
     QPixmap buf;
+signals:
+    void newobj();
 };
+
 
 
 

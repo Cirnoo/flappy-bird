@@ -3,6 +3,11 @@
 #include<QDebug>
 #include<mythread.h>
 #include <QKeyEvent>
+#include"mylabel.h"
+#include<QDesktopWidget>
+#include <QtGlobal>
+#include <QTime>
+
 Widget::Widget(QWidget *parent) :
     QGLWidget(parent),
     ui(new Ui::Widget)
@@ -10,9 +15,13 @@ Widget::Widget(QWidget *parent) :
     ui->setupUi(this);
     //setWindowFlags(Qt::FramelessWindowHint);
     setFixedSize(288*RESOLUTION,512*RESOLUTION);
-    view=QPixmap(this->size());
-    init();
     this->grabKeyboard();
+    view=QPixmap(this->size());
+    move((QApplication::desktop()->width() -width())/2,(QApplication::desktop()->height() - height())/2);
+    QIcon icon = QIcon(":/res/ico.ico");
+    setWindowIcon(icon);
+    init();
+
 }
 
 Widget::~Widget()
@@ -40,9 +49,12 @@ void Widget::AddToMainThread(MyObject * obj,QPixmap & img,double x,double y)
 
 void Widget::init()
 {
+    //extern int xxx;
+    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     res.reset(new Res(this));
     tools.reset(new Tools());
-    back.reset(new Back(res->day_back,res->day_back.height()/2,-0.3,LAYER_BACK));
+    show();
+    back.reset(new Back(res->background[qrand()%2],res->background[0].height()/2,-0.3,LAYER_BACK));
     ground.reset(new Back(res->ground,this->height()-res->ground.height()/2,-2,LAYER_GROUND));
     bird.reset(new Bird());
     socre .reset( new Score());
@@ -70,7 +82,6 @@ void Widget::frame2()
 
 void Widget::paintEvent(QPaintEvent *)
 {
-
     if(!update_flag)
         return;
     QPainter painter(&view);
@@ -136,7 +147,7 @@ void Widget::mousePressEvent(QMouseEvent *event)
     emit SendKeyPress();
 }
 
-void Widget::DoFrame(QMultiMap<int, QPointer<MyObject>> & task_list)
+void Widget::DoFrame(QMultiMap<int, MyObject*> & task_list)
 {
     auto i=task_list.begin();
     while (i!=task_list.end())

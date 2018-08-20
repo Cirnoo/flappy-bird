@@ -70,6 +70,11 @@ void Score::ShowResult(QPainter &p)
     ShowNum(p,board->x_board+120,board->y_board+32,best,img+10);
 }
 
+bool Score::IsFinish()
+{
+    return board->timer>160;
+}
+
 void Score::gameover()
 {
      best=qMax(best,now);

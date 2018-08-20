@@ -10,6 +10,7 @@ public:
     void ScoreAdd();
     void ShowBoard();
     void ShowResult(QPainter &p);
+    bool IsFinish();
 private:
     void gameover();
     void frame();

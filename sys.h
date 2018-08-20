@@ -33,15 +33,14 @@ namespace STATE
 {
     enum {START,RUN,DROP,OVER,RESTART};
 }
-
 class Widget;
 class Res
 {
 public:
-   Res(Widget* p);
-   static Widget*  User;
-   QPixmap nullimg,day_back,night_back,ground,bird[3][3],game_ready,num[2][10],white,black,pipe_down,pipe_up,
-           game_over,score_board,button_play ;
+    Res(Widget* );
+   static Widget *  User;
+   QPixmap nullimg,background[2],ground,bird[3][3],game_ready,num[2][10],white,black,pipe_down,pipe_up,
+           game_over,score_board,button_play,minus,close ;
    QPointer<QSound> sound[5];
 private:
 

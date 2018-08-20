@@ -1,12 +1,11 @@
 #include "bird.h"
 #include "widget.h"
 #include "pipe.h"
-#include <QtGlobal>
-#include <QTime>
+
 using namespace STATE;
 Bird::Bird()
 {
-    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+
     restart();
     init(*img,130,Res::User->height()/2-50,0,1,LAYER_PLAYER);
     land=Res::User->height()-Res::User->res->ground.height()-21;
@@ -20,13 +19,13 @@ Bird::~Bird()
 
 void Bird::keyPress()
 {
-    if(timer_key_delay<=10||y<20)
-    {
-        return;
-    }
-    timer_key_delay=0;
     if(task)
     {
+        if(timer_key_delay<=10||y<20)
+        {
+            return;
+        }
+        timer_key_delay=0;
         if(state==START)
         {
             state=RUN;
@@ -36,7 +35,7 @@ void Bird::keyPress()
             fly();
         }
     }
-    else
+    else if(Res::User->socre->IsFinish())
     {
         task=true;
         Res::User->tools->SetBlack();
@@ -113,7 +112,7 @@ void Bird::restart()
     timer=0;
     x=130;y=Res::User->height()/2-50;
     state=START;
-    ani=Res::User->res->bird[0];
+    ani=Res::User->res->bird[qrand()%3];
     Res::User->tools->SetLeader();
 }
 
@@ -176,7 +175,7 @@ void Bird::OnFly()
     else if(state==DROP)
     {
         timer_drop_delay++;
-        if(timer_drop_delay==35)
+        if(timer_drop_delay==40)
         {
             emit Res::User->SoundSig(MYSOUND::DIE);
         }
