@@ -56,7 +56,7 @@ void Bird::frame()
        img=(interval)?(ani+timer/interval%3):(ani+1);
        logic(state);
        DefaultAction();
-       y=qMin(y,land);
+       y=y<land?y:land;
        vy=qMin(v_min,vy+g);
        timer_key_delay++;
 }

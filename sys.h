@@ -11,14 +11,14 @@
 #include <QSound>
 
 
-const double RESOLUTION = 1.5  ;
-const int COLLI_SIZE =     9   ;
-const int LAYER_BACK =     0   ;
-const int LAYER_PIPE =   100   ;
-const int LAYER_GROUND = 200   ;
-const int LAYER_PLAYER = 300   ;
-const int LAYER_LABEL =  400   ;
-const int LAYER_TOP =    500   ;
+const double RESOLUTION      =    1.5   ;
+const int    COLLI_SIZE      =      9   ;
+const int    LAYER_BACK      =      0   ;
+const int    LAYER_PIPE      =    100   ;
+const int    LAYER_GROUND    =    200   ;
+const int    LAYER_PLAYER    =    300   ;
+const int    LAYER_LABEL     =    400   ;
+const int    LAYER_TOP       =    500   ;
 
 
 namespace MYSOUND
@@ -40,7 +40,7 @@ public:
     Res(Widget* );
    static Widget *  User;
    QPixmap nullimg,background[2],ground,bird[3][3],game_ready,num[2][10],white,black,pipe_down,pipe_up,
-           game_over,score_board,button_play,minus,close ;
+           game_over,score_board,button_play,minus,close,medals[4],new_record;
    QPointer<QSound> sound[5];
 private:
 

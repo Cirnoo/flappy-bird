@@ -10,7 +10,7 @@ public:
     ~Bird();
     void keyPress();
     void Drop();
-    char state;
+    volatile char state;
     QList<QPointer<Pipe>> pipelist;
 private:
     QPixmap * ani=nullptr;

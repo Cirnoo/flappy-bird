@@ -47,10 +47,6 @@ void MyObject::restart()
 void MyObject::DefaultAction()
 {
     timer++;
-    if(navi)
-    {
-        rot=qRadiansToDegrees(qAtan2(vy,vx));
-    }
     x+=vx; y+=vy;
     if(x<-50)
         del_flag=true;

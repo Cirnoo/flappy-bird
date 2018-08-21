@@ -1,6 +1,6 @@
 #include "score.h"
 #include"widget.h"
-Score::Score()
+Score::Score():new_record(Res::User->res->new_record)
 {
     auto & p=Res::User;
     img=Res::User->res->num[0];
@@ -27,6 +27,7 @@ void Score::frame()
 void Score::restart()
 {
     now=0;
+    new_record_flag=false;
 }
 
 void Score::show(QPainter &p)
@@ -50,11 +51,29 @@ void Score::ShowNum(QPainter & p, double x, double y,unsigned int num,QPixmap * 
     }
 }
 
+void Score::ShowMedals(QPainter & p)
+{
+    if(now/10>0)
+    {
+        DrawPixmapAtCenter(board->x_board-0.28*board->board.width(),board->y_board+7,
+                           Res::User->res->medals[now<50?now/10-1:3],p);
+    }
+    if(new_record_flag)
+    {
+        DrawPixmapAtCenter(board->x_board+0.15*board->board.width(),board->y_board+0.15*board->board.height(),
+                           Res::User->res->new_record,p);
+    }
+}
+
 
 
 void Score::ScoreAdd()
 {
     now++;
+    if(now>best)
+    {
+        new_record_flag=true;
+    }
     emit Res::User->SoundSig(MYSOUND::POINT);
 }
 
@@ -68,6 +87,10 @@ void Score::ShowResult(QPainter &p)
     unsigned int temp=now*board->timer2/30;
     ShowNum(p,board->x_board+120,board->y_board-24,temp,img+10);
     ShowNum(p,board->x_board+120,board->y_board+32,best,img+10);
+    if(board->timer2>=30)
+    {
+        ShowMedals(p);
+    }
 }
 
 bool Score::IsFinish()

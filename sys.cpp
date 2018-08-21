@@ -35,6 +35,11 @@ Res::Res(Widget* p)
     game_over=set(784,116,204,54);
     score_board=set(0,516,238,126);
     button_play=set(702,234,116,70);
+    for(int i=0;i<4;i++)
+    {
+        medals[i]=set(294,748-48*i,48,46);
+    }
+    new_record=set(224,1002,32,14);
     minus=QPixmap(":/res/minus.png").scaled(50,50);
     close=QPixmap(":/res/close.png").scaled(50,50);
     back_temp=nullimg;

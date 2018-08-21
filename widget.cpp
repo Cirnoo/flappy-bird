@@ -26,7 +26,7 @@ Widget::Widget(QWidget *parent) :
 
 Widget::~Widget()
 {
-    for(int i=0;i<3;i++)
+    for(int i=0;i<2;i++)
     {
         thread[i]->quit();
         thread[i]->wait();
@@ -58,7 +58,7 @@ void Widget::init()
     ground.reset(new Back(res->ground,this->height()-res->ground.height()/2,-2,LAYER_GROUND));
     bird.reset(new Bird());
     socre .reset( new Score());
-    for(int i=0;i<3;i++)
+    for(int i=0;i<2;i++)
     {
         my_thread[i]=new MyThread();
         thread[i]=new QThread(this);
@@ -71,7 +71,7 @@ void Widget::init()
     connect(&timer, &QTimer::timeout,my_thread[THREAD::FRAME],&MyThread::MyFrame);
     connect(this, &Widget::SendKeyPress,my_thread[THREAD::STATE],&MyThread::MyKeyPress);
     connect(this, &Widget::Do, this,&Widget::frame2);
-    connect(this,SIGNAL(SoundSig(int)),my_thread[THREAD::SOUND],SLOT(Sound(int)));
+    connect(this,SIGNAL(SoundSig(int)),my_thread[THREAD::STATE],SLOT(Sound(int)));
     connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
@@ -147,7 +147,7 @@ void Widget::mousePressEvent(QMouseEvent *event)
     emit SendKeyPress();
 }
 
-void Widget::DoFrame(QMultiMap<int, MyObject*> & task_list)
+void Widget::DoFrame(QMultiMap<int, QPointer<MyObject>> & task_list)
 {
     auto i=task_list.begin();
     while (i!=task_list.end())

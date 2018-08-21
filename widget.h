@@ -6,11 +6,11 @@
 #include"tools.h"
 #include"pipe.h"
 #include"score.h"
-#include<QTimer>
+#include <QTimer>
 #include <QThread>
 #include <QGLWidget>
-#include<QMultiMap>
-#include<QApplication>
+#include <QMultiMap>
+#include <QApplication>
 class MyLabel;
 namespace Ui {
 class Widget;
@@ -46,17 +46,17 @@ private:
     void init();
     void frame2();
     QScopedPointer<Back> back;
-    QMultiMap<int,MyObject *> InSubThread;
-    QMultiMap<int,MyObject *> InMainThread;
+    QMultiMap<int,QPointer<MyObject>> InSubThread;
+    QMultiMap<int,QPointer<MyObject >> InMainThread;
     void paintEvent(QPaintEvent *);
     Ui::Widget *ui;
-    MyThread * my_thread[3];
-    QThread *thread[3];
+    MyThread * my_thread[2];
+    QThread *thread[2];
     QPixmap view;
     void keyPressEvent(QKeyEvent * event);
     void mousePressEvent(QMouseEvent * event);
     bool update_flag=false;
-    void DoFrame(QMultiMap<int, MyObject*> & );
+    void DoFrame(QMultiMap<int, QPointer<MyObject> > & );
 };
 
 
