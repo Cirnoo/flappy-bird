@@ -17,8 +17,9 @@
 截图：
  <div align=center>  <img src="https://raw.githubusercontent.com/Cirnoo/flappy-bird/master/flappy_bird.png" width="288">
 </div>
-***
 
-2018.10.12日更新
+---
+
+2018.10.12日更新  
 一个月后才发现上传的代码是之前编译有问题的旧版，反正也没人看啦，π_π.
 代码风格还是有不少问题，项目经验不足，还请前辈们多指教。
