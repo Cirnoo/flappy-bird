@@ -7,16 +7,16 @@ MyThread::MyThread()
 
 void MyThread::MyFrame()
 {
-    Res::User->frame();
+    sys->GetMainWidget()->frame();
 }
 
 void MyThread::MyKeyPress()
 {
-    Res::User->bird->keyPress();
+    sys->GetMainWidget()->bird->keyPress();
 }
 
 void MyThread::Sound(int s)
 {
-    Res::User->res->sound[s]->play();
+    sys->sound[s]->play();
 }
 

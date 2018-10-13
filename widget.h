@@ -27,7 +27,6 @@ public:
 
     void AddToSubThread(int,MyObject*);
     void AddToMainThread(MyObject * obj,QPixmap & img,double x=0,double y=0);
-    QScopedPointer<Res> res;
     QScopedPointer<Tools>  tools;
     unsigned int timer_count=0;
     QScopedPointer<Back> ground;
@@ -53,6 +52,9 @@ private:
     MyThread * my_thread[2];
     QThread *thread[2];
     QPixmap view;
+    void SignalFun();
+    void GameObjectInit();
+    void ThreadInit();
     void keyPressEvent(QKeyEvent * event);
     void mousePressEvent(QMouseEvent * event);
     bool update_flag=false;

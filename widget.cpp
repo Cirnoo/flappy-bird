@@ -1,13 +1,11 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include<QDebug>
-#include<mythread.h>
+#include <QDebug>
+#include "mythread.h"
 #include <QKeyEvent>
-#include"mylabel.h"
-#include<QDesktopWidget>
+#include <QDesktopWidget>
 #include <QtGlobal>
 #include <QTime>
-
 Widget::Widget(QWidget *parent) :
     QGLWidget(parent),
     ui(new Ui::Widget)
@@ -31,6 +29,7 @@ Widget::~Widget()
         thread[i]->quit();
         thread[i]->wait();
     }
+    delete sys;
     delete ui;
 }
 
@@ -49,30 +48,12 @@ void Widget::AddToMainThread(MyObject * obj,QPixmap & img,double x,double y)
 
 void Widget::init()
 {
-    //extern int xxx;
+    sys=new Global;
+    sys->SetMainWidget(this);
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-    res.reset(new Res(this));
-    tools.reset(new Tools());
-    show();
-    back.reset(new Back(res->background[qrand()%2],res->background[0].height()/2,-0.3,LAYER_BACK));
-    ground.reset(new Back(res->ground,this->height()-res->ground.height()/2,-2,LAYER_GROUND));
-    bird.reset(new Bird());
-    socre .reset( new Score());
-    for(int i=0;i<2;i++)
-    {
-        my_thread[i]=new MyThread();
-        thread[i]=new QThread(this);
-        my_thread[i]->moveToThread(thread[i]);
-        thread[i]->start();
-    }
-    timer.setInterval(13);
-    timer.start();
-    timer.setTimerType(Qt::PreciseTimer);
-    connect(&timer, &QTimer::timeout,my_thread[THREAD::FRAME],&MyThread::MyFrame);
-    connect(this, &Widget::SendKeyPress,my_thread[THREAD::STATE],&MyThread::MyKeyPress);
-    connect(this, &Widget::Do, this,&Widget::frame2);
-    connect(this,SIGNAL(SoundSig(int)),my_thread[THREAD::STATE],SLOT(Sound(int)));
-    connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+    GameObjectInit();
+    ThreadInit();
+    SignalFun();
 }
 
 void Widget::frame2()
@@ -102,6 +83,38 @@ void Widget::paintEvent(QPaintEvent *)
     QPainter painter2(this);
     painter2.drawPixmap(rect(),view);
     update_flag=false;
+}
+
+void Widget::SignalFun()
+{
+    connect(&timer, &QTimer::timeout,my_thread[THREAD::FRAME],&MyThread::MyFrame);
+    connect(this, &Widget::SendKeyPress,my_thread[THREAD::STATE],&MyThread::MyKeyPress);
+    connect(this, &Widget::Do, this,&Widget::frame2);
+    connect(this,SIGNAL(SoundSig(int)),my_thread[THREAD::STATE],SLOT(Sound(int)));
+    connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+}
+
+void Widget::GameObjectInit()
+{
+    tools.reset(new Tools());
+    back.reset(new Back(sys->background[qrand()%2],sys->background[0].height()/2,-0.4,LAYER_BACK));
+    ground.reset(new Back(sys->ground,this->height()-sys->ground.height()/2,-2.4,LAYER_GROUND));
+    bird.reset(new Bird());
+    socre .reset( new Score());
+}
+
+void Widget::ThreadInit()
+{
+    for(int i=0;i<2;i++)
+    {
+        my_thread[i]=new MyThread();
+        thread[i]=new QThread(this);
+        my_thread[i]->moveToThread(thread[i]);
+        thread[i]->start();
+    }
+    timer.setInterval(15);
+    timer.start();
+    timer.setTimerType(Qt::PreciseTimer);
 }
 
 void Widget::GameOver()

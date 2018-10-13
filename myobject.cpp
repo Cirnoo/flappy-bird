@@ -21,7 +21,7 @@ void MyObject::init(QPixmap & _img, double _x,double _y,double _vx,double _vy,in
     vx=_vx;
     vy=_vy;
     layer=_layer;
-    Res::User->AddToSubThread(layer,this);
+    sys->GetMainWidget()->AddToSubThread(layer,this);
 
 }
 

@@ -1,0 +1,17 @@
+INPUT(
+./debug\main.o
+./debug\widget.o
+./debug\myobject.o
+./debug\sys.o
+./debug\bird.o
+./debug\tools.o
+./debug\pipe.o
+./debug\mythread.o
+./debug\score.o
+./debug\scoreboard.o
+./debug\backgroud.o
+./debug\flappy-bird_plugin_import.o
+./debug\qrc_res.o
+./debug\moc_widget.o
+./debug\moc_mythread.o
+);

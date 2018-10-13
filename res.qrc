@@ -7,7 +7,5 @@
         <file>res/panel.wav</file>
         <file>res/point.wav</file>
         <file>res/ico.ico</file>
-        <file>res/close.png</file>
-        <file>res/minus.png</file>
     </qresource>
 </RCC>

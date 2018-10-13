@@ -1,0 +1,17 @@
+INPUT(
+./release\main.o
+./release\widget.o
+./release\myobject.o
+./release\sys.o
+./release\bird.o
+./release\tools.o
+./release\pipe.o
+./release\mythread.o
+./release\score.o
+./release\scoreboard.o
+./release\backgroud.o
+./release\flappy-bird_plugin_import.o
+./release\qrc_res.o
+./release\moc_widget.o
+./release\moc_mythread.o
+);

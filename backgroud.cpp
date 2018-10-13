@@ -29,7 +29,7 @@ void Back::restart()
     task=true;
     if(layer==LAYER_BACK)
     {
-        img=&Res::User->res->background[qrand()%2];
+        img=&sys->background[qrand()%2];
     }
 }
 

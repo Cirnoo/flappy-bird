@@ -1,14 +1,28 @@
-#include<sys.h>
+#include"sys.h"
 #include<QBitmap>
 #include<QRgb>
 #include<QColor>
 #include"widget.h"
-Widget *  Res::User=nullptr;
-Res::Res(Widget* p)
+Global * sys;
+Global::Global()
 {
-    User=p;
+    ResInit();
+}
+
+void Global::SetMainWidget(Widget *p)
+{
+    user=p;
+}
+
+Widget *Global::GetMainWidget()
+{
+    return user;
+}
+
+void Global::ResInit()
+{
     back_temp=QPixmap(":/res/atlas.png");
-    //back_temp.setMask(back_temp.createMaskFromColor(QColor(0,0,0),Qt::MaskInColor));
+    QSize window_size=QSize(WINDOW_WHITH,WINDOW_HEIGHT);
     back_temp=back_temp.scaled(back_temp.size()*RESOLUTION);
     nullimg=QPixmap(0,0);
     background[0]=set(0,0,288,512);
@@ -28,8 +42,8 @@ Res::Res(Widget* p)
     }
     white=set(584,448,32,32);
     black=set(584,412,32,32);
-    white=white.scaled(p->size());
-    black=black.scaled(p->size()*1.5);
+    white=white.scaled(window_size);
+    black=black.scaled(window_size);
     pipe_down=set(112,646,52, 320);
     pipe_up=set(168,646,52, 320);
     game_over=set(784,116,204,54);
@@ -40,8 +54,6 @@ Res::Res(Widget* p)
         medals[i]=set(294,748-48*i,48,46);
     }
     new_record=set(224,1002,32,14);
-    minus=QPixmap(":/res/minus.png").scaled(50,50);
-    close=QPixmap(":/res/close.png").scaled(50,50);
     back_temp=nullimg;
     QString temp [5]={"die","fly","hit","panel","point"};
     QString path=":/res/";
@@ -52,7 +64,7 @@ Res::Res(Widget* p)
     }
 }
 
-QPixmap Res::set(int  x, int  y, int  w, int  h)
+QPixmap Global::set(int  x, int  y, int  w, int  h)
 {
     return back_temp.copy(static_cast<int>(x*RESOLUTION),static_cast<int>(y*RESOLUTION)
                     ,static_cast<int>(w*RESOLUTION),static_cast<int>(h*RESOLUTION));

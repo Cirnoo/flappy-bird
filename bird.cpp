@@ -7,8 +7,8 @@ Bird::Bird()
 {
 
     restart();
-    init(*img,130,Res::User->height()/2-50,0,1,LAYER_PLAYER);
-    land=Res::User->height()-Res::User->res->ground.height()-21;
+    init(*img,130,sys->GetMainWidget()->height()/2-50,0,1,LAYER_PLAYER);
+    land=sys->GetMainWidget()->height()-sys->ground.height()-21;
     state=START;
 }
 
@@ -35,10 +35,10 @@ void Bird::keyPress()
             fly();
         }
     }
-    else if(Res::User->socre->IsFinish())
+    else if(sys->GetMainWidget()->socre->IsFinish())
     {
         task=true;
-        Res::User->tools->SetBlack();
+        sys->GetMainWidget()->tools->SetBlack();
 
     }
 }
@@ -78,9 +78,9 @@ void Bird::logic(char state)
         GameOver();
         break;
     case RESTART:
-        if(Res::User->tools->IsAniPause())
+        if(sys->GetMainWidget()->tools->IsAniPause())
         {
-            Res::User->ReStart();
+            sys->GetMainWidget()->ReStart();
         }
         break;
     default:
@@ -91,7 +91,7 @@ void Bird::logic(char state)
 
 void Bird::fly()
 {
-    emit Res::User->SoundSig(MYSOUND::FLY);
+    emit sys->GetMainWidget()->SoundSig(MYSOUND::FLY);
     vy=-6.5;
     interval=5;
     rot_add=(rot>0)?3:(25-rot)/12.0;
@@ -110,10 +110,10 @@ void Bird::restart()
     timer_key_delay=0;
     timer_drop_delay=0;
     timer=0;
-    x=130;y=Res::User->height()/2-50;
+    x=130;y=sys->GetMainWidget()->height()/2-50;
     state=START;
-    ani=Res::User->res->bird[qrand()%3];
-    Res::User->tools->SetLeader();
+    ani=sys->bird[qrand()%3];
+    sys->GetMainWidget()->tools->SetLeader();
 }
 
 
@@ -130,7 +130,7 @@ void Bird::GameReady()
 void Bird::OnGameRun()
 {
     OnFly();
-    if(timer%150==0)
+    if(timer%130==0)
     {
        pipelist.push_back(SetPipe(qrand()%239-150));
     }
@@ -160,14 +160,14 @@ void Bird::OnFly()
     {
         interval=0;
     }
-    g=(vy<4)?((vy<0)?0.2:0.33):0.4;
+    g=(vy<4)?((vy<0)?0.21:0.33):0.42;
     if(IsColliGround())
     {
         if(state==RUN)
         {
-           Res::User->GameOver();
-           Res::User->tools->SetBlink();
-           emit Res::User->SoundSig(MYSOUND::HIT);
+           sys->GetMainWidget()->GameOver();
+           sys->GetMainWidget()->tools->SetBlink();
+           emit sys->GetMainWidget()->SoundSig(MYSOUND::HIT);
         }
         state=OVER;
         return;
@@ -177,7 +177,7 @@ void Bird::OnFly()
         timer_drop_delay++;
         if(timer_drop_delay==40)
         {
-            emit Res::User->SoundSig(MYSOUND::DIE);
+            emit sys->GetMainWidget()->SoundSig(MYSOUND::DIE);
         }
     }
 
@@ -191,7 +191,7 @@ void Bird::Drop()
     vy=-1;
     g=0.35;
     interval=0;
-    emit Res::User->SoundSig(MYSOUND::HIT);
+    emit sys->GetMainWidget()->SoundSig(MYSOUND::HIT);
 }
 
 void Bird::DelPipe()
@@ -208,7 +208,7 @@ void Bird::DelPipe()
 
 void Bird::GameOver()
 {
-    Res::User->socre->ShowBoard();
+    sys->GetMainWidget()->socre->ShowBoard();
     task=false;
     state=RESTART;
 }

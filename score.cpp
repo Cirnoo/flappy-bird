@@ -1,9 +1,9 @@
 #include "score.h"
 #include"widget.h"
-Score::Score():new_record(Res::User->res->new_record)
+Score::Score():new_record(sys->new_record)
 {
-    auto & p=Res::User;
-    img=Res::User->res->num[0];
+    auto p=sys->GetMainWidget();
+    img=sys->num[0];
     x=p->width()/2;y=120;
     layer=LAYER_PLAYER;
     p->AddToSubThread(layer,this);
@@ -56,12 +56,12 @@ void Score::ShowMedals(QPainter & p)
     if(now/10>0)
     {
         DrawPixmapAtCenter(board->x_board-0.28*board->board.width(),board->y_board+7,
-                           Res::User->res->medals[now<50?now/10-1:3],p);
+                           sys->medals[now<50?now/10-1:3],p);
     }
     if(new_record_flag)
     {
         DrawPixmapAtCenter(board->x_board+0.15*board->board.width(),board->y_board+0.15*board->board.height(),
-                           Res::User->res->new_record,p);
+                           sys->new_record,p);
     }
 }
 
@@ -74,7 +74,7 @@ void Score::ScoreAdd()
     {
         new_record_flag=true;
     }
-    emit Res::User->SoundSig(MYSOUND::POINT);
+    emit sys->GetMainWidget()->SoundSig(MYSOUND::POINT);
 }
 
 void Score::ShowBoard()

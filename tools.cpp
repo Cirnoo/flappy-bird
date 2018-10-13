@@ -66,8 +66,8 @@ QPixmap Tools::SetAlgha(QPixmap &img, unsigned int algha)
 
 Tools::Blink::Blink()
 {
-    buf=Res::User->res->nullimg;
-    init(buf,Res::User->width()/2,Res::User->height()/2,0,0,LAYER_TOP);
+    buf=sys->nullimg;
+    init(buf,sys->GetMainWidget()->width()/2,sys->GetMainWidget()->height()/2,0,0,LAYER_TOP);
 }
 
 void Tools::Blink::frame()
@@ -82,7 +82,7 @@ void Tools::Blink::frame()
 
 void Tools::Blink::show(QPainter & p)
 {
-     buf=SetAlgha(Res::User->res->white,170-15*(3-timer)*(3-timer));
+     buf=SetAlgha(sys->white,170-15*(3-timer)*(3-timer));
      p.drawPixmap(0,0,buf);
 }
 
@@ -90,8 +90,8 @@ void Tools::Blink::show(QPainter & p)
 
 Tools::Restart::Restart()
 {
-    bit=Res::User->res->black;
-    init(Res::User->res->nullimg,Res::User->width()/2,Res::User->height()/2,0,0,LAYER_TOP);
+    bit=sys->black;
+    init(sys->nullimg,sys->GetMainWidget()->width()/2,sys->GetMainWidget()->height()/2,0,0,LAYER_TOP);
 }
 
 void Tools::Restart::frame()
@@ -118,7 +118,7 @@ void Tools::Restart::frame()
 
 void Tools::Restart::show(QPainter & p)
 {
-    bit=Res::User->res->black;
+    bit=sys->black;
     QPainter painter;
     painter.begin(&bit);
     QBrush brush(Qt::color0);
@@ -131,14 +131,14 @@ void Tools::Restart::show(QPainter & p)
 
 Tools::StartObject::StartObject()
 {
-    init(Res::User->res->game_ready,Res::User->width()/2,y=Res::User->height()/2-70,0,0,LAYER_TOP);
+    init(sys->game_ready,sys->GetMainWidget()->width()/2,y=sys->GetMainWidget()->height()/2-70,0,0,LAYER_TOP);
 }
 
 
 
 void Tools::StartObject::frame()
 {
-    if(Res::User->bird->state!=0)
+    if(sys->GetMainWidget()->bird->state!=0)
     {
         img=&buf;
         if(timer++==50)
@@ -151,6 +151,6 @@ void Tools::StartObject::frame()
 
 void Tools::StartObject::show(QPainter & p)
 {
-    buf=SetAlgha(Res::User->res->game_ready,255-5*timer);
+    buf=SetAlgha(sys->game_ready,255-5*timer);
     DrawPixmapAtCenter(x,y,buf,p);
 }
