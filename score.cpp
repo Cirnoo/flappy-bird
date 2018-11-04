@@ -35,7 +35,7 @@ void Score::show(QPainter &p)
     ShowNum(p,x,y,now,img);
 }
 
-void Score::ShowNum(QPainter & p, double x, double y,unsigned int num,QPixmap * Numimg)
+void Score::ShowNum(QPainter & p, const double x, const double y, const unsigned int num, QPixmap * Numimg)
 {
     if(num==0)
     {

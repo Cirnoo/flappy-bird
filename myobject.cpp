@@ -1,6 +1,7 @@
 #include "myobject.h"
 #include "widget.h"
-MyObject::MyObject(QPixmap & _img, double _x, double _y, double _vx,double _vy, int _layer)
+MyObject::MyObject(QPixmap & _img,const double _x,const double _y,const double _vx,
+                   const double _vy,const int _layer)
 {
     init(_img,_x,_y,_vx,_vy,_layer);
 }
@@ -11,7 +12,7 @@ MyObject::MyObject()
 }
 
 
-void MyObject::init(QPixmap & _img, double _x,double _y,double _vx,double _vy,int _layer)
+void MyObject::init(QPixmap & _img, const double _x, const double _y, const double _vx, const double _vy, const int _layer)
 {
 
     timer=0;

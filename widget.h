@@ -25,7 +25,7 @@ public:
     ~Widget();
 public:
 
-    void AddToSubThread(int,MyObject*);
+    void AddToSubThread(const int,MyObject*);
     void AddToMainThread(MyObject * obj,QPixmap & img,double x=0,double y=0);
     QScopedPointer<Tools>  tools;
     unsigned int timer_count=0;

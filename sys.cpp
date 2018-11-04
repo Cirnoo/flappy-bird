@@ -9,12 +9,12 @@ Global::Global()
     ResInit();
 }
 
-void Global::SetMainWidget(Widget *p)
+void Global::SetMainWidget(Widget * const p)
 {
     user=p;
 }
 
-Widget *Global::GetMainWidget()
+Widget *Global::GetMainWidget() const
 {
     return user;
 }

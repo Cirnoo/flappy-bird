@@ -40,8 +40,8 @@ class Global
 {
 public:
    Global();
-   void SetMainWidget(Widget * p);
-   Widget * GetMainWidget();
+   void SetMainWidget(Widget * const p);
+   Widget * GetMainWidget() const;
    void ResInit();
    QPixmap nullimg,background[2],ground,bird[3][3],game_ready,num[2][10],white,black,pipe_down,pipe_up,
            game_over,score_board,button_play,medals[4],new_record;

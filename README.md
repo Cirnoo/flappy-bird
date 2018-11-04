@@ -3,7 +3,9 @@ An implementation of Flappy Bird in C++ for WINODWS
 
 这是我自学Qt一周做的小项目，使用C++写成，感觉flappy bird还是挺适合新手做练习。通过这个项目，我对c++面向对象的思想有了更清晰的认识，学习了Qt的线程、信号和智能指针等的用法，以及提高了阅读英文文档的能力。
 
-软件环境：windows , Qt 5.3  
+软件环境：windows , Qt 5.3   
+编码格式请选择 `UTF-8`  
+ 
 
 #### 已完成的部分
 1. 主体游戏框架

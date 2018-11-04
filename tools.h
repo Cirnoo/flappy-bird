@@ -48,7 +48,6 @@ public:
 
     };
     bool IsAniPause();
-    void Swap(double & ,double &);
     void SetBlink();
     void SetBlack();
     void SetLeader();

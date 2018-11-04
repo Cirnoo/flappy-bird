@@ -23,12 +23,6 @@ bool Tools::IsAniPause()
 }
 
 
-void Tools::Swap(double & a, double & b)
-{
-    double temp=a;
-    a=b;
-    b=temp;
-}
 
 void Tools::SetBlink()
 {

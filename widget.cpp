@@ -33,7 +33,7 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::AddToSubThread(int layer, MyObject * obj)
+void Widget::AddToSubThread(const int layer, MyObject * obj)
 {
 
     InSubThread.insert(layer,obj);

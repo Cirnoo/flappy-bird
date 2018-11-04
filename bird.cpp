@@ -61,7 +61,7 @@ void Bird::frame()
        timer_key_delay++;
 }
 
-void Bird::logic(char state)
+void Bird::logic(const char state)
 {
     switch (state)
     {
@@ -117,7 +117,7 @@ void Bird::restart()
 }
 
 
-QPointer<Pipe> Bird::SetPipe(double y)
+QPointer<Pipe> Bird::SetPipe(const double y) const
 {
     return new Pipe(y);
 }
@@ -136,7 +136,7 @@ void Bird::OnGameRun()
     }
 }
 
-bool Bird::IsColliGround()
+bool Bird::IsColliGround() const
 {
     if(y>=land)
     {

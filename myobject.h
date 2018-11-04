@@ -5,7 +5,7 @@ class Widget;
 class MyObject : public QObject
 {
 public:
-    MyObject(QPixmap & _img, double _x=0, double _y=0, double _vx=0,double _vy=0, int _layer=0);
+    MyObject(QPixmap & _img,const double _x=0,const double _y=0,const double _vx=0,const double _vy=0,const int _layer=0);
     MyObject();
     virtual void frame(); //每帧调用
     virtual void show(QPainter &);  //重绘调用
@@ -20,7 +20,7 @@ public:
     bool del_flag=false;
     bool task=true;
 protected:
-    void init(QPixmap & _img,double _x,double _y,double _vx=0,double _vy=0,int _layer=0);
+    void init(QPixmap & _img,const double _x,const double _y,const double _vx=0,const double _vy=0,const int _layer=0);
     void DefaultAction();
 
 };

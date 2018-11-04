@@ -24,12 +24,12 @@ private:
     void frame();
     void gameover();
     void restart();
-    void logic(char);
+    void logic(const char);
     void fly();
-    QPointer<Pipe> SetPipe(double y);
+    QPointer<Pipe> SetPipe(const double y) const ;
     void GameReady();
     void OnGameRun();
-    bool IsColliGround();
+    bool IsColliGround() const ;
     void OnFly();
     void DelPipe();
     void GameOver();

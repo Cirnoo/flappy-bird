@@ -16,7 +16,7 @@ private:
     void frame();
     void restart();
     void show(QPainter &);
-    void ShowNum(QPainter &,double x,double y,unsigned int num,QPixmap * Numimg);
+    void ShowNum(QPainter &,const double x,const double y,const unsigned int num,QPixmap * Numimg);
     void ShowMedals(QPainter &);
     bool new_record_flag=false;
     QPointer<ScoreBoard> board;
