@@ -16,7 +16,6 @@ An implementation of Flappy Bird in C++ for WINODWS
 
 
 
-*希望能有人给我提一些改进的建议，感谢*
 
 截图：
  <div align=center>  <img src="https://raw.githubusercontent.com/Cirnoo/flappy-bird/master/flappy_bird.png" width="288">
